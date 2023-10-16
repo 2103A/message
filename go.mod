@@ -1,4 +1,4 @@
-module message
+module github.com/2103A/message
 
 go 1.20
 
