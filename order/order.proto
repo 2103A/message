@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package order;
+
+option go_package = "./order";
+
+message Goods {
+  int64 GoodID = 10;
+  int64 Num    = 20;
+}
+
+message CreateOrderRequest {
+  string         UserID = 10;
+  repeated Goods Goods  = 20;
+}
+
+message CreateOrderResponse {
+  string PayUrl = 20;
+}
+
+service Order {
+  rpc CreateOrder (CreateOrderRequest) returns (CreateOrderResponse);
+}
