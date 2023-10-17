@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package user;
+option go_package="./user";
+
+//用户注册
+message UserRegisterRequest {
+  string UserName = 10;
+  string UserMobile = 20;
+  string UserPassword = 30;
+}
+//修改密码返回
+message UserUpdateLoginResponse {
+  string Status = 10;
+}
+//注册 登录 下线 返回
+message UserRegisterResponse {
+  UserInfo Data = 20;
+}
+
+//登录
+message UserLoginRequest {
+  string Mobile =10;
+  string Password =20;
+}
+
+//退出登录
+message UserLaunchRequest {
+  string Mobile = 10;
+}
+message UserUpdatePasswordRequest {
+  string Mobile =10;
+  string Password =20;
+  string NewPassword =30;
+}
+
+//返回用户信息
+message UserInfo{
+  int64 UserId =10;
+  string UserName =20;
+  string UserMobile=30;
+}
+
+service User {
+  //注册
+  rpc UserRegister(UserRegisterRequest) returns(UserRegisterResponse);
+  //登录
+  rpc UserLogin(UserLoginRequest) returns(UserRegisterResponse);
+  //退出登录
+  rpc UserLaunch(UserLaunchRequest) returns(UserRegisterResponse);
+  //修改密码
+  rpc UserUpdatePassword(UserUpdatePasswordRequest) returns(UserUpdateLoginResponse);
+
+}
