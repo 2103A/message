@@ -19,10 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	User_UserRegister_FullMethodName       = "/user.User/UserRegister"
-	User_UserLogin_FullMethodName          = "/user.User/UserLogin"
-	User_UserLaunch_FullMethodName         = "/user.User/UserLaunch"
-	User_UserUpdatePassword_FullMethodName = "/user.User/UserUpdatePassword"
+	User_UserRegister_FullMethodName         = "/user.User/UserRegister"
+	User_UserLogin_FullMethodName            = "/user.User/UserLogin"
+	User_UserLaunch_FullMethodName           = "/user.User/UserLaunch"
+	User_UserUpdatePassword_FullMethodName   = "/user.User/UserUpdatePassword"
+	User_CreateUserStarGood_FullMethodName   = "/user.User/CreateUserStarGood"
+	User_DeleteUserStarGood_FullMethodName   = "/user.User/DeleteUserStarGood"
+	User_DeleteUserStarsGood_FullMethodName  = "/user.User/DeleteUserStarsGood"
+	User_GetUserStarGoodInfo_FullMethodName  = "/user.User/GetUserStarGoodInfo"
+	User_GetUserStarGoodInfos_FullMethodName = "/user.User/GetUserStarGoodInfos"
 )
 
 // UserClient is the client API for User service.
@@ -37,6 +42,11 @@ type UserClient interface {
 	UserLaunch(ctx context.Context, in *UserLaunchRequest, opts ...grpc.CallOption) (*UserRegisterResponse, error)
 	// 修改密码
 	UserUpdatePassword(ctx context.Context, in *UserUpdatePasswordRequest, opts ...grpc.CallOption) (*UserUpdateLoginResponse, error)
+	CreateUserStarGood(ctx context.Context, in *CreateUserStarGoodRequest, opts ...grpc.CallOption) (*CreateUserStarGoodResponse, error)
+	DeleteUserStarGood(ctx context.Context, in *DeleteUserStarGoodRequest, opts ...grpc.CallOption) (*DeleteUserStarGoodResponse, error)
+	DeleteUserStarsGood(ctx context.Context, in *DeleteUserStarGoodsRequest, opts ...grpc.CallOption) (*DeleteUserStarGoodsResponse, error)
+	GetUserStarGoodInfo(ctx context.Context, in *GetUserStarGoodInfoRequest, opts ...grpc.CallOption) (*GetUserStarGoodInfoRequest, error)
+	GetUserStarGoodInfos(ctx context.Context, in *GetUserStarGoodInfosRequest, opts ...grpc.CallOption) (*GetUserStarGoodInfosRequest, error)
 }
 
 type userClient struct {
@@ -83,6 +93,51 @@ func (c *userClient) UserUpdatePassword(ctx context.Context, in *UserUpdatePassw
 	return out, nil
 }
 
+func (c *userClient) CreateUserStarGood(ctx context.Context, in *CreateUserStarGoodRequest, opts ...grpc.CallOption) (*CreateUserStarGoodResponse, error) {
+	out := new(CreateUserStarGoodResponse)
+	err := c.cc.Invoke(ctx, User_CreateUserStarGood_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) DeleteUserStarGood(ctx context.Context, in *DeleteUserStarGoodRequest, opts ...grpc.CallOption) (*DeleteUserStarGoodResponse, error) {
+	out := new(DeleteUserStarGoodResponse)
+	err := c.cc.Invoke(ctx, User_DeleteUserStarGood_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) DeleteUserStarsGood(ctx context.Context, in *DeleteUserStarGoodsRequest, opts ...grpc.CallOption) (*DeleteUserStarGoodsResponse, error) {
+	out := new(DeleteUserStarGoodsResponse)
+	err := c.cc.Invoke(ctx, User_DeleteUserStarsGood_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GetUserStarGoodInfo(ctx context.Context, in *GetUserStarGoodInfoRequest, opts ...grpc.CallOption) (*GetUserStarGoodInfoRequest, error) {
+	out := new(GetUserStarGoodInfoRequest)
+	err := c.cc.Invoke(ctx, User_GetUserStarGoodInfo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GetUserStarGoodInfos(ctx context.Context, in *GetUserStarGoodInfosRequest, opts ...grpc.CallOption) (*GetUserStarGoodInfosRequest, error) {
+	out := new(GetUserStarGoodInfosRequest)
+	err := c.cc.Invoke(ctx, User_GetUserStarGoodInfos_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
@@ -95,6 +150,11 @@ type UserServer interface {
 	UserLaunch(context.Context, *UserLaunchRequest) (*UserRegisterResponse, error)
 	// 修改密码
 	UserUpdatePassword(context.Context, *UserUpdatePasswordRequest) (*UserUpdateLoginResponse, error)
+	CreateUserStarGood(context.Context, *CreateUserStarGoodRequest) (*CreateUserStarGoodResponse, error)
+	DeleteUserStarGood(context.Context, *DeleteUserStarGoodRequest) (*DeleteUserStarGoodResponse, error)
+	DeleteUserStarsGood(context.Context, *DeleteUserStarGoodsRequest) (*DeleteUserStarGoodsResponse, error)
+	GetUserStarGoodInfo(context.Context, *GetUserStarGoodInfoRequest) (*GetUserStarGoodInfoRequest, error)
+	GetUserStarGoodInfos(context.Context, *GetUserStarGoodInfosRequest) (*GetUserStarGoodInfosRequest, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -113,6 +173,21 @@ func (UnimplementedUserServer) UserLaunch(context.Context, *UserLaunchRequest) (
 }
 func (UnimplementedUserServer) UserUpdatePassword(context.Context, *UserUpdatePasswordRequest) (*UserUpdateLoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserUpdatePassword not implemented")
+}
+func (UnimplementedUserServer) CreateUserStarGood(context.Context, *CreateUserStarGoodRequest) (*CreateUserStarGoodResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateUserStarGood not implemented")
+}
+func (UnimplementedUserServer) DeleteUserStarGood(context.Context, *DeleteUserStarGoodRequest) (*DeleteUserStarGoodResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUserStarGood not implemented")
+}
+func (UnimplementedUserServer) DeleteUserStarsGood(context.Context, *DeleteUserStarGoodsRequest) (*DeleteUserStarGoodsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUserStarsGood not implemented")
+}
+func (UnimplementedUserServer) GetUserStarGoodInfo(context.Context, *GetUserStarGoodInfoRequest) (*GetUserStarGoodInfoRequest, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserStarGoodInfo not implemented")
+}
+func (UnimplementedUserServer) GetUserStarGoodInfos(context.Context, *GetUserStarGoodInfosRequest) (*GetUserStarGoodInfosRequest, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserStarGoodInfos not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -199,6 +274,96 @@ func _User_UserUpdatePassword_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_CreateUserStarGood_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateUserStarGoodRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).CreateUserStarGood(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_CreateUserStarGood_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).CreateUserStarGood(ctx, req.(*CreateUserStarGoodRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_DeleteUserStarGood_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUserStarGoodRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).DeleteUserStarGood(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_DeleteUserStarGood_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).DeleteUserStarGood(ctx, req.(*DeleteUserStarGoodRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_DeleteUserStarsGood_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUserStarGoodsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).DeleteUserStarsGood(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_DeleteUserStarsGood_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).DeleteUserStarsGood(ctx, req.(*DeleteUserStarGoodsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_GetUserStarGoodInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserStarGoodInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetUserStarGoodInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetUserStarGoodInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetUserStarGoodInfo(ctx, req.(*GetUserStarGoodInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_GetUserStarGoodInfos_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserStarGoodInfosRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetUserStarGoodInfos(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetUserStarGoodInfos_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetUserStarGoodInfos(ctx, req.(*GetUserStarGoodInfosRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -221,6 +386,26 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UserUpdatePassword",
 			Handler:    _User_UserUpdatePassword_Handler,
+		},
+		{
+			MethodName: "CreateUserStarGood",
+			Handler:    _User_CreateUserStarGood_Handler,
+		},
+		{
+			MethodName: "DeleteUserStarGood",
+			Handler:    _User_DeleteUserStarGood_Handler,
+		},
+		{
+			MethodName: "DeleteUserStarsGood",
+			Handler:    _User_DeleteUserStarsGood_Handler,
+		},
+		{
+			MethodName: "GetUserStarGoodInfo",
+			Handler:    _User_GetUserStarGoodInfo_Handler,
+		},
+		{
+			MethodName: "GetUserStarGoodInfos",
+			Handler:    _User_GetUserStarGoodInfos_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

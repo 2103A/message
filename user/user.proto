@@ -1,7 +1,78 @@
 syntax = "proto3";
 
 package user;
-option go_package="./user";
+
+option go_package = "./user";
+
+service User {
+  //注册
+  rpc UserRegister (UserRegisterRequest) returns (UserRegisterResponse);
+  //登录
+  rpc UserLogin (UserLoginRequest) returns (UserRegisterResponse);
+  //退出登录
+  rpc UserLaunch (UserLaunchRequest) returns (UserRegisterResponse);
+  //修改密码
+  rpc UserUpdatePassword (UserUpdatePasswordRequest) returns (UserUpdateLoginResponse);
+
+  rpc CreateUserStarGood (CreateUserStarGoodRequest) returns (CreateUserStarGoodResponse);
+
+  rpc DeleteUserStarGood (DeleteUserStarGoodRequest) returns (DeleteUserStarGoodResponse);
+
+  rpc DeleteUserStarsGood (DeleteUserStarGoodsRequest) returns (DeleteUserStarGoodsResponse);
+
+  rpc GetUserStarGoodInfo (GetUserStarGoodInfoRequest) returns (GetUserStarGoodInfoRequest);
+
+  rpc GetUserStarGoodInfos (GetUserStarGoodInfosRequest) returns (GetUserStarGoodInfosRequest);
+
+}
+
+message UserStartGood {
+  int64 ID        = 10;
+  int64 GoodSKUID = 20;
+  int64 UserID    = 30;
+}
+
+message CreateUserStarGoodRequest {
+  UserStartGood Info = 10;
+}
+
+message CreateUserStarGoodResponse {
+  UserStartGood Info = 10;
+}
+
+message DeleteUserStarGoodRequest {
+  int64 ID = 10;
+}
+
+message DeleteUserStarGoodResponse {
+  UserStartGood Info = 10;
+}
+
+message DeleteUserStarGoodsRequest {
+  repeated UserStartGood Infos = 10;
+}
+
+message DeleteUserStarGoodsResponse {
+  repeated UserStartGood Infos = 10;
+}
+
+message GetUserStarGoodInfoRequest {
+  int64 ID = 10;
+}
+
+message GetUserStarGoodInfoResponse {
+  UserStartGood Info = 10;
+}
+
+message GetUserStarGoodInfosRequest {
+  int64 UserID = 10;
+  int64 Offset = 20;
+  int64 Limit  = 30;
+}
+
+message GetUserStarGoodInfosResponse {
+  repeated UserStartGood Infos = 10;
+}
 
 //用户注册
 message UserRegisterRequest {
@@ -20,8 +91,8 @@ message UserRegisterResponse {
 
 //登录
 message UserLoginRequest {
-  string Mobile =10;
-  string Password =20;
+  string Mobile = 10;
+  string Password = 20;
 }
 
 //退出登录
@@ -29,26 +100,18 @@ message UserLaunchRequest {
   string Mobile = 10;
 }
 message UserUpdatePasswordRequest {
-  string Mobile =10;
-  string Password =20;
-  string NewPassword =30;
+  string Mobile = 10;
+  string Password = 20;
+  string NewPassword = 30;
 }
 
 //返回用户信息
-message UserInfo{
-  int64 UserId =10;
-  string UserName =20;
-  string UserMobile=30;
+message UserInfo {
+  int64 UserId = 10;
+  string UserName = 20;
+  string UserMobile = 30;
 }
 
-service User {
-  //注册
-  rpc UserRegister(UserRegisterRequest) returns(UserRegisterResponse);
-  //登录
-  rpc UserLogin(UserLoginRequest) returns(UserRegisterResponse);
-  //退出登录
-  rpc UserLaunch(UserLaunchRequest) returns(UserRegisterResponse);
-  //修改密码
-  rpc UserUpdatePassword(UserUpdatePasswordRequest) returns(UserUpdateLoginResponse);
 
-}
+
+
