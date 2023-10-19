@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	Order_CreateOrder_FullMethodName = "/order.Order/CreateOrder"
+	Order_OrderNotify_FullMethodName = "/order.Order/OrderNotify"
 	Order_DeleteOrder_FullMethodName = "/order.Order/DeleteOrder"
 )
 
@@ -28,6 +29,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrderClient interface {
 	CreateOrder(ctx context.Context, in *CreateOrderRequest, opts ...grpc.CallOption) (*CreateOrderResponse, error)
+	OrderNotify(ctx context.Context, in *OrderNotifyRequest, opts ...grpc.CallOption) (*OrderNotifyResponse, error)
 	DeleteOrder(ctx context.Context, in *DeleteOrderRequest, opts ...grpc.CallOption) (*DeleteOrderResponse, error)
 }
 
@@ -48,6 +50,15 @@ func (c *orderClient) CreateOrder(ctx context.Context, in *CreateOrderRequest, o
 	return out, nil
 }
 
+func (c *orderClient) OrderNotify(ctx context.Context, in *OrderNotifyRequest, opts ...grpc.CallOption) (*OrderNotifyResponse, error) {
+	out := new(OrderNotifyResponse)
+	err := c.cc.Invoke(ctx, Order_OrderNotify_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *orderClient) DeleteOrder(ctx context.Context, in *DeleteOrderRequest, opts ...grpc.CallOption) (*DeleteOrderResponse, error) {
 	out := new(DeleteOrderResponse)
 	err := c.cc.Invoke(ctx, Order_DeleteOrder_FullMethodName, in, out, opts...)
@@ -62,6 +73,7 @@ func (c *orderClient) DeleteOrder(ctx context.Context, in *DeleteOrderRequest, o
 // for forward compatibility
 type OrderServer interface {
 	CreateOrder(context.Context, *CreateOrderRequest) (*CreateOrderResponse, error)
+	OrderNotify(context.Context, *OrderNotifyRequest) (*OrderNotifyResponse, error)
 	DeleteOrder(context.Context, *DeleteOrderRequest) (*DeleteOrderResponse, error)
 	mustEmbedUnimplementedOrderServer()
 }
@@ -72,6 +84,9 @@ type UnimplementedOrderServer struct {
 
 func (UnimplementedOrderServer) CreateOrder(context.Context, *CreateOrderRequest) (*CreateOrderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOrder not implemented")
+}
+func (UnimplementedOrderServer) OrderNotify(context.Context, *OrderNotifyRequest) (*OrderNotifyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OrderNotify not implemented")
 }
 func (UnimplementedOrderServer) DeleteOrder(context.Context, *DeleteOrderRequest) (*DeleteOrderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteOrder not implemented")
@@ -107,6 +122,24 @@ func _Order_CreateOrder_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Order_OrderNotify_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrderNotifyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).OrderNotify(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_OrderNotify_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).OrderNotify(ctx, req.(*OrderNotifyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Order_DeleteOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteOrderRequest)
 	if err := dec(in); err != nil {
@@ -135,6 +168,10 @@ var Order_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateOrder",
 			Handler:    _Order_CreateOrder_Handler,
+		},
+		{
+			MethodName: "OrderNotify",
+			Handler:    _Order_OrderNotify_Handler,
 		},
 		{
 			MethodName: "DeleteOrder",
