@@ -19,89 +19,89 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	UpdateStock_UpdateStock_FullMethodName = "/stock.UpdateStock/UpdateStock"
+	Stock_UpdateStock_FullMethodName = "/stock.Stock/UpdateStock"
 )
 
-// UpdateStockClient is the client API for UpdateStock service.
+// StockClient is the client API for Stock service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type UpdateStockClient interface {
+type StockClient interface {
 	UpdateStock(ctx context.Context, in *UpdateStockRequest, opts ...grpc.CallOption) (*UpdateStockResponse, error)
 }
 
-type updateStockClient struct {
+type stockClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewUpdateStockClient(cc grpc.ClientConnInterface) UpdateStockClient {
-	return &updateStockClient{cc}
+func NewStockClient(cc grpc.ClientConnInterface) StockClient {
+	return &stockClient{cc}
 }
 
-func (c *updateStockClient) UpdateStock(ctx context.Context, in *UpdateStockRequest, opts ...grpc.CallOption) (*UpdateStockResponse, error) {
+func (c *stockClient) UpdateStock(ctx context.Context, in *UpdateStockRequest, opts ...grpc.CallOption) (*UpdateStockResponse, error) {
 	out := new(UpdateStockResponse)
-	err := c.cc.Invoke(ctx, UpdateStock_UpdateStock_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, Stock_UpdateStock_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// UpdateStockServer is the server API for UpdateStock service.
-// All implementations must embed UnimplementedUpdateStockServer
+// StockServer is the server API for Stock service.
+// All implementations must embed UnimplementedStockServer
 // for forward compatibility
-type UpdateStockServer interface {
+type StockServer interface {
 	UpdateStock(context.Context, *UpdateStockRequest) (*UpdateStockResponse, error)
-	mustEmbedUnimplementedUpdateStockServer()
+	mustEmbedUnimplementedStockServer()
 }
 
-// UnimplementedUpdateStockServer must be embedded to have forward compatible implementations.
-type UnimplementedUpdateStockServer struct {
+// UnimplementedStockServer must be embedded to have forward compatible implementations.
+type UnimplementedStockServer struct {
 }
 
-func (UnimplementedUpdateStockServer) UpdateStock(context.Context, *UpdateStockRequest) (*UpdateStockResponse, error) {
+func (UnimplementedStockServer) UpdateStock(context.Context, *UpdateStockRequest) (*UpdateStockResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateStock not implemented")
 }
-func (UnimplementedUpdateStockServer) mustEmbedUnimplementedUpdateStockServer() {}
+func (UnimplementedStockServer) mustEmbedUnimplementedStockServer() {}
 
-// UnsafeUpdateStockServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to UpdateStockServer will
+// UnsafeStockServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to StockServer will
 // result in compilation errors.
-type UnsafeUpdateStockServer interface {
-	mustEmbedUnimplementedUpdateStockServer()
+type UnsafeStockServer interface {
+	mustEmbedUnimplementedStockServer()
 }
 
-func RegisterUpdateStockServer(s grpc.ServiceRegistrar, srv UpdateStockServer) {
-	s.RegisterService(&UpdateStock_ServiceDesc, srv)
+func RegisterStockServer(s grpc.ServiceRegistrar, srv StockServer) {
+	s.RegisterService(&Stock_ServiceDesc, srv)
 }
 
-func _UpdateStock_UpdateStock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Stock_UpdateStock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateStockRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UpdateStockServer).UpdateStock(ctx, in)
+		return srv.(StockServer).UpdateStock(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UpdateStock_UpdateStock_FullMethodName,
+		FullMethod: Stock_UpdateStock_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UpdateStockServer).UpdateStock(ctx, req.(*UpdateStockRequest))
+		return srv.(StockServer).UpdateStock(ctx, req.(*UpdateStockRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// UpdateStock_ServiceDesc is the grpc.ServiceDesc for UpdateStock service.
+// Stock_ServiceDesc is the grpc.ServiceDesc for Stock service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var UpdateStock_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "stock.UpdateStock",
-	HandlerType: (*UpdateStockServer)(nil),
+var Stock_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "stock.Stock",
+	HandlerType: (*StockServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "UpdateStock",
-			Handler:    _UpdateStock_UpdateStock_Handler,
+			Handler:    _Stock_UpdateStock_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
