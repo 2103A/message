@@ -19,9 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Order_CreateOrder_FullMethodName = "/order.Order/CreateOrder"
-	Order_OrderNotify_FullMethodName = "/order.Order/OrderNotify"
-	Order_DeleteOrder_FullMethodName = "/order.Order/DeleteOrder"
+	Order_CreateOrder_FullMethodName       = "/order.Order/CreateOrder"
+	Order_OrderNotify_FullMethodName       = "/order.Order/OrderNotify"
+	Order_OrderCreate_FullMethodName       = "/order.Order/OrderCreate"
+	Order_OrderCreateReturn_FullMethodName = "/order.Order/OrderCreateReturn"
+	Order_DeleteOrder_FullMethodName       = "/order.Order/DeleteOrder"
+	Order_OrderList_FullMethodName         = "/order.Order/OrderList"
+	Order_Refund_FullMethodName            = "/order.Order/Refund"
+	Order_UpdateStatus_FullMethodName      = "/order.Order/UpdateStatus"
 )
 
 // OrderClient is the client API for Order service.
@@ -30,7 +35,12 @@ const (
 type OrderClient interface {
 	CreateOrder(ctx context.Context, in *CreateOrderRequest, opts ...grpc.CallOption) (*CreateOrderResponse, error)
 	OrderNotify(ctx context.Context, in *OrderNotifyRequest, opts ...grpc.CallOption) (*OrderNotifyResponse, error)
+	OrderCreate(ctx context.Context, in *OrderCreateRequest, opts ...grpc.CallOption) (*OrderCreateResponse, error)
+	OrderCreateReturn(ctx context.Context, in *OrderCreateRequest, opts ...grpc.CallOption) (*OrderCreateResponse, error)
 	DeleteOrder(ctx context.Context, in *DeleteOrderRequest, opts ...grpc.CallOption) (*DeleteOrderResponse, error)
+	OrderList(ctx context.Context, in *OrderListRequest, opts ...grpc.CallOption) (*OrderListResponse, error)
+	Refund(ctx context.Context, in *RefundRequest, opts ...grpc.CallOption) (*RefundResponse, error)
+	UpdateStatus(ctx context.Context, in *UpdateStatusRequest, opts ...grpc.CallOption) (*UpdateStatusResponse, error)
 }
 
 type orderClient struct {
@@ -59,9 +69,54 @@ func (c *orderClient) OrderNotify(ctx context.Context, in *OrderNotifyRequest, o
 	return out, nil
 }
 
+func (c *orderClient) OrderCreate(ctx context.Context, in *OrderCreateRequest, opts ...grpc.CallOption) (*OrderCreateResponse, error) {
+	out := new(OrderCreateResponse)
+	err := c.cc.Invoke(ctx, Order_OrderCreate_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) OrderCreateReturn(ctx context.Context, in *OrderCreateRequest, opts ...grpc.CallOption) (*OrderCreateResponse, error) {
+	out := new(OrderCreateResponse)
+	err := c.cc.Invoke(ctx, Order_OrderCreateReturn_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *orderClient) DeleteOrder(ctx context.Context, in *DeleteOrderRequest, opts ...grpc.CallOption) (*DeleteOrderResponse, error) {
 	out := new(DeleteOrderResponse)
 	err := c.cc.Invoke(ctx, Order_DeleteOrder_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) OrderList(ctx context.Context, in *OrderListRequest, opts ...grpc.CallOption) (*OrderListResponse, error) {
+	out := new(OrderListResponse)
+	err := c.cc.Invoke(ctx, Order_OrderList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) Refund(ctx context.Context, in *RefundRequest, opts ...grpc.CallOption) (*RefundResponse, error) {
+	out := new(RefundResponse)
+	err := c.cc.Invoke(ctx, Order_Refund_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) UpdateStatus(ctx context.Context, in *UpdateStatusRequest, opts ...grpc.CallOption) (*UpdateStatusResponse, error) {
+	out := new(UpdateStatusResponse)
+	err := c.cc.Invoke(ctx, Order_UpdateStatus_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +129,12 @@ func (c *orderClient) DeleteOrder(ctx context.Context, in *DeleteOrderRequest, o
 type OrderServer interface {
 	CreateOrder(context.Context, *CreateOrderRequest) (*CreateOrderResponse, error)
 	OrderNotify(context.Context, *OrderNotifyRequest) (*OrderNotifyResponse, error)
+	OrderCreate(context.Context, *OrderCreateRequest) (*OrderCreateResponse, error)
+	OrderCreateReturn(context.Context, *OrderCreateRequest) (*OrderCreateResponse, error)
 	DeleteOrder(context.Context, *DeleteOrderRequest) (*DeleteOrderResponse, error)
+	OrderList(context.Context, *OrderListRequest) (*OrderListResponse, error)
+	Refund(context.Context, *RefundRequest) (*RefundResponse, error)
+	UpdateStatus(context.Context, *UpdateStatusRequest) (*UpdateStatusResponse, error)
 	mustEmbedUnimplementedOrderServer()
 }
 
@@ -88,8 +148,23 @@ func (UnimplementedOrderServer) CreateOrder(context.Context, *CreateOrderRequest
 func (UnimplementedOrderServer) OrderNotify(context.Context, *OrderNotifyRequest) (*OrderNotifyResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OrderNotify not implemented")
 }
+func (UnimplementedOrderServer) OrderCreate(context.Context, *OrderCreateRequest) (*OrderCreateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OrderCreate not implemented")
+}
+func (UnimplementedOrderServer) OrderCreateReturn(context.Context, *OrderCreateRequest) (*OrderCreateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OrderCreateReturn not implemented")
+}
 func (UnimplementedOrderServer) DeleteOrder(context.Context, *DeleteOrderRequest) (*DeleteOrderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteOrder not implemented")
+}
+func (UnimplementedOrderServer) OrderList(context.Context, *OrderListRequest) (*OrderListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OrderList not implemented")
+}
+func (UnimplementedOrderServer) Refund(context.Context, *RefundRequest) (*RefundResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Refund not implemented")
+}
+func (UnimplementedOrderServer) UpdateStatus(context.Context, *UpdateStatusRequest) (*UpdateStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateStatus not implemented")
 }
 func (UnimplementedOrderServer) mustEmbedUnimplementedOrderServer() {}
 
@@ -140,6 +215,42 @@ func _Order_OrderNotify_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Order_OrderCreate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrderCreateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).OrderCreate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_OrderCreate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).OrderCreate(ctx, req.(*OrderCreateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_OrderCreateReturn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrderCreateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).OrderCreateReturn(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_OrderCreateReturn_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).OrderCreateReturn(ctx, req.(*OrderCreateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Order_DeleteOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteOrderRequest)
 	if err := dec(in); err != nil {
@@ -154,6 +265,60 @@ func _Order_DeleteOrder_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(OrderServer).DeleteOrder(ctx, req.(*DeleteOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_OrderList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrderListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).OrderList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_OrderList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).OrderList(ctx, req.(*OrderListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_Refund_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefundRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).Refund(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_Refund_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).Refund(ctx, req.(*RefundRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_UpdateStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateStatusRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).UpdateStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_UpdateStatus_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).UpdateStatus(ctx, req.(*UpdateStatusRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -174,8 +339,28 @@ var Order_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Order_OrderNotify_Handler,
 		},
 		{
+			MethodName: "OrderCreate",
+			Handler:    _Order_OrderCreate_Handler,
+		},
+		{
+			MethodName: "OrderCreateReturn",
+			Handler:    _Order_OrderCreateReturn_Handler,
+		},
+		{
 			MethodName: "DeleteOrder",
 			Handler:    _Order_DeleteOrder_Handler,
+		},
+		{
+			MethodName: "OrderList",
+			Handler:    _Order_OrderList_Handler,
+		},
+		{
+			MethodName: "Refund",
+			Handler:    _Order_Refund_Handler,
+		},
+		{
+			MethodName: "UpdateStatus",
+			Handler:    _Order_UpdateStatus_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
